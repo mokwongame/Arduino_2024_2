@@ -1,4 +1,4 @@
 chcp 65001
 git add --all
-git commit -m "3색 LED 제어를 함수로 교체"
+git commit -m "Push button 입력을 함수로 구현"
 git push -u origin master

@@ -10,6 +10,7 @@
 #define PORT_R (2)
 #define PORT_G (3)
 #define PORT_B (4)
+#define PORT_BTN (5)  // push button의 port 번호
 
 void initLed() {
   // digital port를 출력(output)으로 사용하는 모드(mode)로 선택
@@ -29,14 +30,30 @@ void turnRgb(bool bRed, bool bGreen, bool bBlue) {
   turnLed(PORT_B, bBlue);
 }
 
+// 버튼 누르면 true를 return
+bool getButton() {
+  int nInput = digitalRead(PORT_BTN);
+  delay(100); // 100 msec 지연
+  if (nInput == LOW) return true; // 버튼 누름
+  else return false; // 버튼 누르지 않음
+}
+
 void setup() {
   // put your setup code here, to run once:
   initLed();
   // digital port에 출력을 LOW(접지, 0V)로 쓰기
   turnRgb(false, false, false);
+  // digital port를 입력으로 사용: PULLUP은 전압을 보드의 내부 전원으로 만든 5V로 올리기
+  pinMode(PORT_BTN, INPUT_PULLUP);
+  // Serial port 초기화(시작하기)
+  Serial.begin(9600);  // 속도 9600 bps로 시작하기
 }
 
 void loop() {
+  // digital port에서 입력을 읽기: 평상시 5V, 버튼 누르면 0V가 입력됨
+  int nInput = digitalRead(PORT_BTN);
+  Serial.println(nInput);
+
   // put your main code here, to run repeatedly:
   delay(1000);  // 1000 msec 동안 지연(delay)
   // digital port에 출력을 HIGH(전압이 높음, 5V)로 쓰기
