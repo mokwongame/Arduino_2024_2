@@ -7,9 +7,9 @@
 6. 그 다음 버튼 누르면 RGB off
  */
 
-#define PORT_R  (2)
-#define PORT_G  (3)
-#define PORT_B  (4)
+#define PORT_R (2)
+#define PORT_G (3)
+#define PORT_B (4)
 
 void setup() {
   // put your setup code here, to run once:
@@ -25,5 +25,13 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-
+  delay(1000);  // 1000 msec 동안 지연(delay)
+  // digital port에 출력을 HIGH(전압이 높음, 5V)로 쓰기
+  digitalWrite(PORT_R, HIGH);
+  digitalWrite(PORT_G, HIGH);
+  digitalWrite(PORT_B, HIGH);
+  delay(1000);
+  digitalWrite(PORT_R, LOW);
+  digitalWrite(PORT_G, LOW);
+  digitalWrite(PORT_B, LOW);
 }
