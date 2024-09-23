@@ -51,13 +51,6 @@ void setup() {
 
 void loop() {
   // digital port에서 입력을 읽기: 평상시 5V, 버튼 누르면 0V가 입력됨
-  int nInput = digitalRead(PORT_BTN);
-  Serial.println(nInput);
-
-  // put your main code here, to run repeatedly:
-  delay(1000);  // 1000 msec 동안 지연(delay)
-  // digital port에 출력을 HIGH(전압이 높음, 5V)로 쓰기
-  turnRgb(true, true, true);
-  delay(1000);
-  turnRgb(false, false, false);
+  bool bPress = getButton();
+  if (bPress) Serial.println("pressed");
 }
