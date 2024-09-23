@@ -12,6 +12,8 @@
 #define PORT_B (4)
 #define PORT_BTN (5)  // push button의 port 번호
 
+int nState = 0;  // 전역 변수로 버튼이 눌린 회수를 저장
+
 void initLed() {
   // digital port를 출력(output)으로 사용하는 모드(mode)로 선택
   pinMode(PORT_R, OUTPUT);
@@ -33,9 +35,9 @@ void turnRgb(bool bRed, bool bGreen, bool bBlue) {
 // 버튼 누르면 true를 return
 bool getButton() {
   int nInput = digitalRead(PORT_BTN);
-  delay(100); // 100 msec 지연
-  if (nInput == LOW) return true; // 버튼 누름
-  else return false; // 버튼 누르지 않음
+  delay(100);                      // 100 msec 지연
+  if (nInput == LOW) return true;  // 버튼 누름
+  else return false;               // 버튼 누르지 않음
 }
 
 void setup() {
@@ -52,5 +54,13 @@ void setup() {
 void loop() {
   // digital port에서 입력을 읽기: 평상시 5V, 버튼 누르면 0V가 입력됨
   bool bPress = getButton();
-  if (bPress) Serial.println("pressed");
+  if (bPress) {
+    Serial.println("pressed");
+    nState++;
+    if (nState == 1) turnRgb(true, false, false); // R on
+    else { // 모든 기능 초기화
+      nState = 0;
+      turnRgb(false, false, false);
+    }
+  }
 }
