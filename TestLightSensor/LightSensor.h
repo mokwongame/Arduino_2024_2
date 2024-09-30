@@ -3,20 +3,37 @@
 #include "Voltmeter.h"
 
 #define DEF_LIGHT_SENSOR_PORT	(A1)
+#define LIGHT_BRIGHT_LIMIT	(400)	// ë°ì€ ë¹›ì˜ í•œê³„
+#define LIGHT_AMBIENT_LIMIT	(730)	// ìì—°ê´‘ì˜ í•œê³„
 
-class LightSensor: public Voltmeter // Voltmeter¸¦ publicÀ¸·Î »ó¼Ó ¹ŞÀ½(:)
+// ì¡°ë„ ìƒíƒœë¥¼ 3ê°€ì§€ë¡œ êµ¬ë¶„: 0, 1, 2ë¡œ ë°°ì •
+enum class LightType
+{
+	DARK=0, AMBIENT, BRIGHT
+};
+// ë°ìŒ = 230, ìì—°ê´‘ = 570, ì–´ë‘ì›€ = 890
+
+class LightSensor: public Voltmeter // Voltmeterë¥¼ publicìœ¼ë¡œ ìƒì† ë°›ìŒ(:)
 {
 public:
 	LightSensor(void)
 	{
-		setPort(DEF_LIGHT_SENSOR_PORT); // setPort()´Â LightSensorÀÇ ¸í½ÃÀûÀÎ ¸â¹ö°¡ ¾Æ´Ô -> ÇÏÁö¸¸ Voltmeter¸¦ publicÀ¸·Î »ó¼Ó¹Ş¾Æ¼­ public ±×·ì¿¡ ¼ÓÇÑ setPort()¸¦ »ç¿ë °¡´É
+		setPort(DEF_LIGHT_SENSOR_PORT); // setPort()ëŠ” LightSensorì˜ ëª…ì‹œì ì¸ ë©¤ë²„ê°€ ì•„ë‹˜ -> í•˜ì§€ë§Œ Voltmeterë¥¼ publicìœ¼ë¡œ ìƒì†ë°›ì•„ì„œ public ê·¸ë£¹ì— ì†í•œ setPort()ë¥¼ ì‚¬ìš© ê°€ëŠ¥
 	}
 	~LightSensor()
 	{}
 
 	int getLightStep(void) const
 	{
-		return getVoltStep(); // getVoltStep() ÇÔ¼ö´Â Voltmeter¿¡ Á¤ÀÇµÈ ¸â¹ö ÇÔ¼ö
+		return getVoltStep(); // getVoltStep() í•¨ìˆ˜ëŠ” Voltmeterì— ì •ì˜ëœ ë©¤ë²„ í•¨ìˆ˜
+	}
+
+	LightType getLightType(void) const
+	{
+		int nLight = getLightStep();
+		if (nLight < LIGHT_BRIGHT_LIMIT) return LightType::BRIGHT; // ë°ì€ ì¡°ê±´
+		else if (nLight < LIGHT_AMBIENT_LIMIT) return LightType::AMBIENT; // ìì—°ê´‘ ì¡°ê±´
+		else return LightType::DARK; // ì–´ë‘ìš´ ì¡°ê±´
 	}
 
 protected:
