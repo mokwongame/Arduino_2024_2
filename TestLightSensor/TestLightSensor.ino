@@ -14,5 +14,7 @@ void loop() {
   Serial.println("light step = " + String(nLight));
   LightType nType = lightSensor.getLightType();
   Serial.println("light type = " + String(int(nType)));
+  String str = lightSensor.typeToStr(nType);
+  Serial.println("light = " + str);
   delay(1000);
 }

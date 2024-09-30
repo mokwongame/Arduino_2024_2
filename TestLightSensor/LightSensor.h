@@ -36,5 +36,15 @@ public:
 		else return LightType::DARK; // 어두운 조건
 	}
 
+	String typeToStr(LightType nType)
+	{
+		switch (nType)
+		{
+		case LightType::DARK: return "dark";
+		case LightType::AMBIENT: return "ambient";
+		default: return "bright";
+		}
+	}
+
 protected:
 };
