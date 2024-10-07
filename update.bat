@@ -1,4 +1,4 @@
 chcp 65001
 git add --all
-git commit -m "문자열 저장소를 StringTok으로 설정"
+git commit -m "입력 받은 문자열에서 토큰 추출"
 git push -u origin master
