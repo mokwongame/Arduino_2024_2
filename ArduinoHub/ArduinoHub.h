@@ -7,9 +7,9 @@
 /* ArduinoHub의 명령어 규칙
 - 명령어의 끝에는 엔터('\n') 넣음
 - 명령어가 있으면 엔터가 있음: 명령어 입력 여부를 판단
-- 전압 읽기: get volt
-- 조도 스텝 읽기: get lightstep
-- 조도 상태(dark, ambient, bright) 읽기: get light
+- 전압 읽기(토큰 2개): get volt
+- 조도 스텝 읽기(토큰 2개): get lightstep
+- 조도 상태(dark, ambient, bright) 읽기(토큰 2개): get light
 */
 
 class ArduinoHub
@@ -42,8 +42,30 @@ protected:
 
 	void exeCmd(void)
 	{
-		// 토큰(token, 표식) 추출
-		String sToken = m_stInput.cutToken().toString(); // cutToken(): 현재 문자열에서 처음 토큰을 잘라냄(cut); 문자열의 크기는 잘라낸 만큼 줄어듬
-		Serial.println(sToken); // 디버깅용 코드
+		// #1 토큰(token, 표식) 추출
+		String sToken = getToken(); // cutToken(): 현재 문자열에서 처음 토큰을 잘라냄(cut); 문자열의 크기는 잘라낸 만큼 줄어듬
+		//Serial.println(sToken); // 디버깅용 코드
+		if (sToken == "get") // get에 대한 명령어 처리
+		{
+			exeGet();
+		}
+		else // 잘못된 명령어
+		{
+			Serial.println("wrong command: " + sToken);
+			m_stInput.empty(); // 문자열 전체 비우기(empty)
+		}
+	}
+
+	void exeGet(void)
+	{
+		// #2 토큰 추출
+		String sToken = getToken();
+	}
+
+	// 자주 쓰는 코드는 함수로 구현
+	String getToken(void)
+	{
+		String sToken = m_stInput.cutToken().toString();
+		return sToken;
 	}
 };
