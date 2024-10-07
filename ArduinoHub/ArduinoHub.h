@@ -20,7 +20,7 @@ public:
 
 	void setup(void) // void setup()도 가능하게 됨
 	{
-
+		m_voltmeter.setPort(A0);
 	}
 
 	void start(void) // ArduinoHub의 시작점
@@ -39,6 +39,7 @@ public:
 
 protected:
 	StringTok m_stInput; // Serial로 입력받은 문자를 저장받는 StringTok의 인스턴스
+	Voltmeter m_voltmeter;
 
 	void exeCmd(void)
 	{
@@ -51,6 +52,8 @@ protected:
 		}
 		else // 잘못된 명령어
 		{
+			// 공백인 토큰은 오류가 아님
+			if (sToken.length() == 0) return;
 			Serial.println("wrong command: " + sToken);
 			m_stInput.empty(); // 문자열 전체 비우기(empty)
 		}
@@ -60,6 +63,13 @@ protected:
 	{
 		// #2 토큰 추출
 		String sToken = getToken();
+		if (sToken == "volt") exeVolt(); // 전압 읽기
+	}
+
+	void exeVolt(void)
+	{
+		double volt = m_voltmeter.getVolt();
+		Serial.println(String(volt, 10)); // 10 의미: 소수점 이하 10자리까지 문자열로 변환
 	}
 
 	// 자주 쓰는 코드는 함수로 구현
