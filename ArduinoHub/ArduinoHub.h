@@ -62,6 +62,7 @@ protected:
 		String sToken = getToken();
 		if (sToken == "volt") exeVolt(); // 전압 읽기
 		else if (sToken == "lightstep") exeLightStep();
+		else if (sToken == "light") exeLight();
 		else printError(sToken);
 	}
 
@@ -75,6 +76,12 @@ protected:
 	{
 		int nStep = m_lightSensor.getLightStep();
 		Serial.println(nStep);
+	}
+
+	void exeLight(void)
+	{
+		LightType nLight = m_lightSensor.getLightType();
+		Serial.println(m_lightSensor.typeToStr(nLight));
 	}
 
 	// 자주 쓰는 코드는 함수로 구현
