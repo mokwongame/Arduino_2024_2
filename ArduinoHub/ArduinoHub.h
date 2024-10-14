@@ -21,6 +21,7 @@ public:
 	void setup(void) // void setup()도 가능하게 됨
 	{
 		m_voltmeter.setPort(A0);
+		m_lightSensor.setPort(A1);
 	}
 
 	void start(void) // ArduinoHub의 시작점
@@ -39,7 +40,8 @@ public:
 
 protected:
 	StringTok m_stInput; // Serial로 입력받은 문자를 저장받는 StringTok의 인스턴스
-	Voltmeter m_voltmeter;
+	Voltmeter m_voltmeter; // 전압계
+	LightSensor m_lightSensor; // 조도 센서
 
 	void exeCmd(void)
 	{
@@ -51,12 +53,7 @@ protected:
 			exeGet();
 		}
 		else // 잘못된 명령어
-		{
-			// 공백인 토큰은 오류가 아님
-			if (sToken.length() == 0) return;
-			Serial.println("wrong command: " + sToken);
-			m_stInput.empty(); // 문자열 전체 비우기(empty)
-		}
+			printError(sToken);
 	}
 
 	void exeGet(void)
@@ -64,6 +61,8 @@ protected:
 		// #2 토큰 추출
 		String sToken = getToken();
 		if (sToken == "volt") exeVolt(); // 전압 읽기
+		else if (sToken == "lightstep") exeLightStep();
+		else printError(sToken);
 	}
 
 	void exeVolt(void)
@@ -72,10 +71,24 @@ protected:
 		Serial.println(String(volt, 10)); // 10 의미: 소수점 이하 10자리까지 문자열로 변환
 	}
 
+	void exeLightStep(void)
+	{
+		int nStep = m_lightSensor.getLightStep();
+		Serial.println(nStep);
+	}
+
 	// 자주 쓰는 코드는 함수로 구현
 	String getToken(void)
 	{
 		String sToken = m_stInput.cutToken().toString();
 		return sToken;
+	}
+
+	void printError(const String& sToken) // const: 상수(함수 입력에 쓰면 입력 변수 sToken이 함수 내에서 상수 취급); &: 레퍼런스(포인터와 같은 역할이지만 포인터가 아닌 변수로 쓰임)로 입력 받음
+	{
+		// 공백인 토큰은 오류가 아님
+		if (sToken.length() == 0) return;
+		Serial.println("wrong command: " + sToken);
+		m_stInput.empty(); // 문자열 전체 비우기(empty)
 	}
 };
