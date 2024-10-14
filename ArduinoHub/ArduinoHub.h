@@ -11,6 +11,7 @@
 - 전압 읽기(토큰 2개): get volt
 - 조도 스텝 읽기(토큰 2개): get lightstep
 - 조도 상태(dark, ambient, bright) 읽기(토큰 2개): get light
+- 3색 LED 켜기(color: red, green, blue, cyan, magenta, yellow, white, off; 토큰 3개): set led color
 */
 
 class ArduinoHub
@@ -23,6 +24,8 @@ public:
 	{
 		m_voltmeter.setPort(A0);
 		m_lightSensor.setPort(A1);
+		m_led3.setPort(2, 3, 4);
+		m_led3.setup();
 	}
 
 	void start(void) // ArduinoHub의 시작점
@@ -43,6 +46,7 @@ protected:
 	StringTok m_stInput; // Serial로 입력받은 문자를 저장받는 StringTok의 인스턴스
 	Voltmeter m_voltmeter; // 전압계
 	LightSensor m_lightSensor; // 조도 센서
+	Led3 m_led3;	// 3색 LED
 
 	void exeCmd(void)
 	{
@@ -53,6 +57,7 @@ protected:
 		{
 			exeGet();
 		}
+		else if (sToken == "set") exeSet();
 		else // 잘못된 명령어
 			printError(sToken);
 	}
@@ -64,6 +69,24 @@ protected:
 		if (sToken == "volt") exeVolt(); // 전압 읽기
 		else if (sToken == "lightstep") exeLightStep();
 		else if (sToken == "light") exeLight();
+		else printError(sToken);
+	}
+
+	void exeSet(void)
+	{
+		// #2 토큰 추출
+		String sToken = getToken();
+		if (sToken == "led") exeLed();
+		else printError(sToken);
+	}
+
+	void exeLed(void)
+	{
+		// #3 토큰 추출
+		String sToken = getToken();
+		if (sToken == "red") m_led3.turnLed(true, false, false);
+		else if (sToken == "green") m_led3.turnLed(false, true, false);
+		else if (sToken == "off") m_led3.turnLed(false, false, false);
 		else printError(sToken);
 	}
 
