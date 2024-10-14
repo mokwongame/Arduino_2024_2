@@ -3,6 +3,7 @@
 #include "StringTok.h"
 #include "Voltmeter.h"
 #include "LightSensor.h"
+#include "Led3.h"
 
 /* ArduinoHub의 명령어 규칙
 - 명령어의 끝에는 엔터('\n') 넣음

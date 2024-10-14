@@ -1,4 +1,4 @@
 chcp 65001
 git add --all
-git commit -m "조도 상태 읽기 구현"
+git commit -m "Led3 헤더 파일 작성"
 git push -u origin master
