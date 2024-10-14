@@ -1,4 +1,4 @@
 chcp 65001
 git add --all
-git commit -m "TestBuzzer 프로젝트 추가: tone() 검증"
+git commit -m "Buzzer 클래스 추가"
 git push -u origin master
