@@ -4,6 +4,7 @@
 #include "Voltmeter.h"
 #include "LightSensor.h"
 #include "Led3.h"
+#include "Buzzer.h"
 
 /* ArduinoHub의 명령어 규칙
 - 명령어의 끝에는 엔터('\n') 넣음
@@ -12,6 +13,8 @@
 - 조도 스텝 읽기(토큰 2개): get lightstep
 - 조도 상태(dark, ambient, bright) 읽기(토큰 2개): get light
 - 3색 LED 켜기(color: red, green, blue, cyan, magenta, yellow, white, off; 토큰 3개): set led color
+- 부저 켜기(note: do, re, mi, fa, sol, ra, si; 토큰 3개): play note #time
+- 부저 끄기(토큰 2개): play off
 */
 
 class ArduinoHub
@@ -26,6 +29,8 @@ public:
 		m_lightSensor.setPort(A1);
 		m_led3.setPort(2, 3, 4);
 		m_led3.setup();
+		m_buzzer.setPort(5);
+		m_buzzer.setup();
 	}
 
 	void start(void) // ArduinoHub의 시작점
@@ -47,6 +52,7 @@ protected:
 	Voltmeter m_voltmeter; // 전압계
 	LightSensor m_lightSensor; // 조도 센서
 	Led3 m_led3;	// 3색 LED
+	Buzzer m_buzzer;	// 부저
 
 	void exeCmd(void)
 	{
