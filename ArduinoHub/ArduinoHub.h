@@ -64,6 +64,7 @@ protected:
 			exeGet();
 		}
 		else if (sToken == "set") exeSet();
+		else if (sToken == "play") exePlay();
 		else // 잘못된 명령어
 			printError(sToken);
 	}
@@ -84,6 +85,21 @@ protected:
 		String sToken = getToken();
 		if (sToken == "led") exeLed();
 		else printError(sToken);
+	}
+
+	void exePlay(void)
+	{
+		// #2 토큰 추출
+		String sToken = getToken();
+		if (sToken == "do") exePlayNote(NOTE_DO);
+		else printError(sToken);
+	}
+
+	void exePlayNote(int nNote)
+	{
+		// #3 토큰 추출
+		String sToken = getToken();
+		// 문자열 -> 정수로 변환
 	}
 
 	void exeLed(void)
