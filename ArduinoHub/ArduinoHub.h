@@ -92,6 +92,8 @@ protected:
 		// #2 토큰 추출
 		String sToken = getToken();
 		if (sToken == "do") exePlayNote(NOTE_DO);
+		else if (sToken == "re") exePlayNote(NOTE_RE);
+		else if (sToken == "off") m_buzzer.playOff();
 		else printError(sToken);
 	}
 
@@ -100,6 +102,8 @@ protected:
 		// #3 토큰 추출
 		String sToken = getToken();
 		// 문자열 -> 정수로 변환
+		int nTime = sToken.toInt();
+		m_buzzer.play(nNote, nTime);
 	}
 
 	void exeLed(void)
