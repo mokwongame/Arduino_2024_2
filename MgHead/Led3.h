@@ -13,7 +13,7 @@ public:
 	}
 	~Led3()	{}
 
-	setPort(int nPortR, int nPortG, int nPortB)
+	void setPort(int nPortR, int nPortG, int nPortB)
 	{
 		m_nPortR = nPortR;
 		m_nPortG = nPortG;
@@ -29,7 +29,7 @@ public:
 
 	void turnLed(bool bR, bool bG, bool bB)
 	{
-		digitalWrite(m_nPortR, (bR) ? HIGH : LOW); // bRï¿½ï¿½ trueï¿½Ì¸ï¿½, HIGH; bRï¿½ï¿½ falseï¿½Ì¸ï¿½ LOW
+		digitalWrite(m_nPortR, (bR) ? HIGH : LOW); // bRÀÌ trueÀÌ¸é, HIGH; bRÀÌ falseÀÌ¸é LOW
 		digitalWrite(m_nPortG, (bG) ? HIGH : LOW);
 		digitalWrite(m_nPortB, (bB) ? HIGH : LOW);
 	}

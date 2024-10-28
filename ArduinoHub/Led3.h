@@ -13,7 +13,7 @@ public:
 	}
 	~Led3()	{}
 
-	setPort(int nPortR, int nPortG, int nPortB)
+	void setPort(int nPortR, int nPortG, int nPortB)
 	{
 		m_nPortR = nPortR;
 		m_nPortG = nPortG;
